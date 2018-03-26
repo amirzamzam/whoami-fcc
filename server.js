@@ -5,18 +5,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const useragent = require('express-useragent');
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(useragent.express());
 app.use(express.static('public'))
 
 var api = '/api/whoami';
 
 app.get(api, function(req, res, next){
-var language;
-var software;
-var
+var language = req.acceptsLanguages();
+var software = req.get('User-agent');
+var ipaddress = req.ip;
+  
+  res.json({'ipaddress': ipaddress, 'language': language[0], 'software': software});
 });
 
 
